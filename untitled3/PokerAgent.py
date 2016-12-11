@@ -1,16 +1,14 @@
 import pygame
 import pygame.surfarray
 import Database
-from Paused import switch_pause
 import tensorflow as tf
 import threading
 import numpy as np
 import time
 import random
 import copy
-from  pong import Pong
+from pong import Pong
 from PIL import Image
-# from pong import switch_pause
 
 from Queue import Queue
 last_score_1 = 0
@@ -98,10 +96,6 @@ class PongAgent:
 
     def start(self):
         self.pong.start()
-
-    def epsilon(self):
-        maximum = 1000000;
-
 
     def worker_train_dqn(self):
         while True:
