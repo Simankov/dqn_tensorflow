@@ -3,12 +3,14 @@
 import pygame
 from sys import exit
 import pygame.constants
+from pygame.locals import *
 
 class Pong:
     def __init__(self):
         self.paused = False
         self.bar1_score = 0
         self.bar2_score = 0
+        self.terminated = False
     def start(self):
         pygame.init()
         ai_speed = 1000
@@ -32,7 +34,7 @@ class Pong:
         bar1_y, bar2_y = 215., 215.
         circle_x, circle_y = 307.5, 232.5
         bar1_move, bar2_move = 0., 0.
-        speed_x, speed_y, speed_circ = 250., 250., 250.
+        speed_x, speed_y, speed_circ = 250., 250., 150.
         # clock and font objects
         clock = pygame.time.Clock()
         font = pygame.font.SysFont("calibri", 40)
@@ -64,8 +66,8 @@ class Pong:
             screen.blit(bar1, (bar1_x, bar1_y))
             screen.blit(bar2, (bar2_x, bar2_y))
             screen.blit(circle, (circle_x, circle_y))
-            screen.blit(score1, (250., 210.))
-            screen.blit(score2, (380., 210.))
+            # screen.blit(score1, (250., 210.))
+            # screen.blit(score2, (380., 210.))
 
             bar1_y += bar1_move
             pygame.init()
@@ -78,7 +80,7 @@ class Pong:
             if not self.paused:
                 dx = speed_x * time_sec
                 dy = speed_y * time_sec
-                speed_circ = 250.
+                speed_circ = 150.
             else:
                 speed_circ = 0
                 dx = 0
@@ -115,10 +117,12 @@ class Pong:
                     circle_x = 605.
                     speed_x = -speed_x
             if circle_x < 5.:
+                self.terminated = True
                 self.bar2_score += 1
                 circle_x, circle_y = 320., 232.5
                 bar1_y, bar_2_y = 215., 215.
             elif circle_x > 620.:
+                self.terminated = True
                 self.bar1_score += 1
                 circle_x, circle_y = 307.5, 232.5
                 bar1_y, bar2_y = 215., 215.
@@ -133,6 +137,13 @@ class Pong:
 
     def switch_pause(self):
         self.paused = not self.paused
+
+    def is_terminated(self):
+        if self.terminated:
+            self.terminated = False
+            return True
+        else:
+            return False
 
     def get_scores(self):
         return (self.bar1_score,self.bar2_score)

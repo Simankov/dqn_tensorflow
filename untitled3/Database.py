@@ -30,7 +30,8 @@ class Database:
     def getSamples():
         db = mysqlcon.connect(host="localhost", user="sergey", passwd="gfgfgjrth1", db="HISTORY", charset='latin1')
         cursor = db.cursor()
-        sql = "SELECT * FROM history ORDER BY RAND() LIMIT 32"
+        # entries with reward == 0 not ready to train.
+        sql = "SELECT * FROM history WHERE NOT reward=0 ORDER BY RAND() LIMIT 32"
         cursor.execute(sql)
         data = cursor.fetchall()
         tuples = []
