@@ -3,6 +3,7 @@
 import pygame
 from sys import exit
 import pygame.constants
+import random as rand
 from pygame.locals import *
 
 class Pong:
@@ -34,7 +35,7 @@ class Pong:
         bar1_y, bar2_y = 215., 215.
         circle_x, circle_y = 307.5, 232.5
         bar1_move, bar2_move = 0., 0.
-        speed_x, speed_y, speed_circ = 250., 250., 150.
+        speed_x, speed_y, speed_circ = 190., 190., 200.
         # clock and font objects
         clock = pygame.time.Clock()
         font = pygame.font.SysFont("calibri", 40)
@@ -80,7 +81,7 @@ class Pong:
             if not self.paused:
                 dx = speed_x * time_sec
                 dy = speed_y * time_sec
-                speed_circ = 150.
+                speed_circ = 200.
             else:
                 speed_circ = 0
                 dx = 0
@@ -88,6 +89,7 @@ class Pong:
 
             circle_x += dx
             circle_y += dy
+
             ai_speed = speed_circ * time_sec
             # AI of the computer.
             if circle_x >= 305.:
@@ -119,12 +121,12 @@ class Pong:
             if circle_x < 5.:
                 self.terminated = True
                 self.bar2_score += 1
-                circle_x, circle_y = 320., 232.5
+                circle_x, circle_y = 320., rand.uniform(30,430)
                 bar1_y, bar_2_y = 215., 215.
             elif circle_x > 620.:
                 self.terminated = True
                 self.bar1_score += 1
-                circle_x, circle_y = 307.5, 232.5
+                circle_x, circle_y = 307.5, rand.uniform(30,430) # 307.5
                 bar1_y, bar2_y = 215., 215.
             if circle_y <= 10.:
                 speed_y = -speed_y
